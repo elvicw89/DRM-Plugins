@@ -1,0 +1,23 @@
+[
+  {
+    "name": "DRM-TRGRR",
+    "repo": "elvicw/DRMTRGRR",
+    "branch": "main",
+    "tagline": "Drum trigger and sample replacement. Six slots, amber scope, vintage hardware look.",
+    "screenshot": "assets/screenshot.png"
+  },
+  {
+    "name": "DRM-SMRTVRB",
+    "repo": "elvicw/DRM-SMRTVRB",
+    "branch": "main",
+    "tagline": "Drum reverb with HPF/LPF and a console-style layout.",
+    "screenshot": "screenshots/ui-hpf-lpf-expanded.png"
+  },
+  {
+    "name": "DRM-RESHAPE",
+    "repo": "elvicw/DRM-RESHAPE",
+    "branch": "main",
+    "tagline": "Drum-focused equalizer and tone shaper.",
+    "screenshot": "screenshots/drm-reshape-vintage-ui.png"
+  }
+]
