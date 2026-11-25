@@ -1,0 +1,32 @@
+{
+  "DRM-TRGRR": {
+    "tag": "v1.1.0",
+    "date": "2026-11-25",
+    "assets": [
+      {
+        "name": "DRM-TRGRR.1.1.0-Win64.zip",
+        "size": 4530691
+      }
+    ]
+  },
+  "DRM-SMRTVRB": {
+    "tag": "v0.4.0",
+    "date": "2026-11-24",
+    "assets": [
+      {
+        "name": "DRM-SMRTVRB-0.4.0-Windows-VST3.zip",
+        "size": 2396577
+      }
+    ]
+  },
+  "DRM-RESHAPE": {
+    "tag": "v1.4.0",
+    "date": "2026-11-24",
+    "assets": [
+      {
+        "name": "DRM-RESHAPE-Windows-x64.zip",
+        "size": 5677104
+      }
+    ]
+  }
+}

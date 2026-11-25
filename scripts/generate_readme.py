@@ -1,86 +1,103 @@
 #!/usr/bin/env python3
-"""Regenerate README.md from the latest GitHub release of each plugin in plugins.json.
+"""Sync the latest release of each plugin in plugins.json into this repo, then rebuild README.md.
 
-Uses only the standard library. Set GITHUB_TOKEN to avoid API rate limits.
+For every plugin it downloads the newest .zip release asset into downloads/<name>/ and the
+screenshot into screenshots/<name>.png. Release info is kept in data/releases.json so the README
+still renders (and old files stay) when a source repo can't be reached, e.g. after it goes private.
+
+Needs the GitHub CLI (`gh`). Set GH_TOKEN. Private source repos need a token that can read them
+(the SOURCE_TOKEN secret in the workflow).
 """
 import json
-import os
-import urllib.request
+import shutil
+import subprocess
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-ASSET_EXTS = (".zip", ".msi", ".exe", ".dmg", ".pkg")
+STATE = ROOT / "data" / "releases.json"
+HUB = "elvicw/DRM-Plugins"
+BRANCH = "main"
+ASSET_EXTS = (".zip",)
 
 
-def api(path):
-    req = urllib.request.Request(
-        f"https://api.github.com/{path}",
-        headers={"Accept": "application/vnd.github+json", "User-Agent": "drm-plugins-readme"},
-    )
-    token = os.environ.get("GITHUB_TOKEN")
-    if token:
-        req.add_header("Authorization", f"Bearer {token}")
-    with urllib.request.urlopen(req) as resp:
-        return json.load(resp)
+def gh(*args, binary=False):
+    res = subprocess.run(["gh", *args], capture_output=True, check=True)
+    return res.stdout if binary else res.stdout.decode()
+
+
+def hub_url(rel_path):
+    return f"https://github.com/{HUB}/raw/{BRANCH}/{rel_path.replace(' ', '%20')}"
 
 
 def human_size(n):
     return f"{n / 1024 / 1024:.1f} MB"
 
 
-def plugin_section(p):
-    repo = p["repo"]
-    lines = [f"## {p['name']}", "", p["tagline"], ""]
-    shot = f"https://raw.githubusercontent.com/{repo}/{p['branch']}/{p['screenshot']}"
-    lines += [f'<img src="{shot}" alt="{p["name"]}" width="640">', ""]
-    try:
-        rel = api(f"repos/{repo}/releases/latest")
-    except Exception:
-        lines += ["No published release yet.", ""]
-        return "\n".join(lines)
-
-    tag = rel["tag_name"]
-    date = rel["published_at"][:10]
-    lines.append(f"**Latest: {tag}** (released {date})")
-    lines.append("")
+def sync_plugin(p, state):
+    name, repo = p["name"], p["repo"]
+    rel = json.loads(gh("api", f"repos/{repo}/releases/latest"))
     assets = [a for a in rel["assets"] if a["name"].lower().endswith(ASSET_EXTS)]
-    if assets:
-        lines += ["| Download | Size |", "| --- | --- |"]
-        for a in assets:
-            lines.append(f"| [{a['name']}]({a['browser_download_url']}) | {human_size(a['size'])} |")
-        lines.append("")
+    target = ROOT / "downloads" / name
+    entry = {"tag": rel["tag_name"], "date": rel["published_at"][:10], "assets": []}
+
+    if state.get(name, {}).get("tag") != rel["tag_name"] or not target.exists():
+        with tempfile.TemporaryDirectory() as tmp:
+            for a in assets:
+                gh("release", "download", rel["tag_name"], "-R", repo, "-p", a["name"], "-D", tmp)
+            if target.exists():
+                shutil.rmtree(target)
+            target.mkdir(parents=True)
+            for f in Path(tmp).iterdir():
+                shutil.move(str(f), target / f.name)
+    for a in assets:
+        entry["assets"].append({"name": a["name"], "size": a["size"]})
+
+    shot = gh("api", f"repos/{repo}/contents/{p['screenshot']}?ref={p['branch']}",
+              "-H", "Accept: application/vnd.github.raw", binary=True)
+    (ROOT / "screenshots").mkdir(exist_ok=True)
+    (ROOT / "screenshots" / f"{name}.png").write_bytes(shot)
+    state[name] = entry
+
+
+def section(p, entry):
+    name = p["name"]
+    lines = [f"## {name}", "", p["tagline"], "",
+             f'<img src="{hub_url(f"screenshots/{name}.png")}" alt="{name}" width="640">', ""]
+    if not entry:
+        return "\n".join(lines + ["No release yet.", ""])
+    lines += [f"**Latest: {entry['tag']}** (released {entry['date']})", "",
+              "| Download | Size |", "| --- | --- |"]
+    for a in entry["assets"]:
+        url = hub_url(f"downloads/{name}/{a['name']}")
+        lines.append(f"| [{a['name']}]({url}) | {human_size(a['size'])} |")
+    lines.append("")
     return "\n".join(lines)
 
 
 def main():
     plugins = json.loads((ROOT / "plugins.json").read_text())
+    state = json.loads(STATE.read_text()) if STATE.exists() else {}
+    for p in plugins:
+        try:
+            sync_plugin(p, state)
+        except Exception as e:
+            print(f"warning: could not sync {p['name']}, keeping existing files: {e}")
+    STATE.parent.mkdir(exist_ok=True)
+    STATE.write_text(json.dumps(state, indent=2) + "\n")
+
     out = [
         "# DRM Series by yeahwaah audio",
         "",
         "Drum-focused plugins. Download the latest build of each below.",
         "",
-        "> This page is generated automatically from each plugin's latest GitHub release.",
         "> Windows (64-bit) builds. Copy the `.vst3` from the zip into `C:\\Program Files\\Common Files\\VST3`.",
-        "",
-        "| Plugin | Latest |",
-        "| --- | --- |",
-    ]
-    sections = []
-    for p in plugins:
-        try:
-            rel = api(f"repos/{p['repo']}/releases/latest")
-            latest = rel["tag_name"]
-        except Exception:
-            latest = "n/a"
-        out.append(f"| [{p['name']}](#{p['name'].lower()}) | {latest} |")
-        sections.append(plugin_section(p))
-    out += ["", "---", ""]
-    out.append("\n---\n\n".join(sections))
-    out += [
         "",
         "---",
         "",
-        "Add a plugin by editing `plugins.json`. The README refreshes daily and on every push.",
+        "\n---\n\n".join(section(p, state.get(p["name"])) for p in plugins),
+        "",
+        "---",
         "",
     ]
     (ROOT / "README.md").write_text("\n".join(out))
