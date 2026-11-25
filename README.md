@@ -12,7 +12,7 @@ Drum-focused plugins. Download the latest build of each below.
 
 Detects drum hits in your recorded tracks and triggers or layers samples on top of them, so a weak kick or snare can be replaced or reinforced without losing the original performance.
 
-<img src="https://github.com/elvicw/DRM-Plugins/raw/main/screenshots/DRM-TRGRR.png" alt="DRM-TRGRR" width="640">
+<img src="https://github.com/elvicw89/DRM-Plugins/raw/main/screenshots/DRM-TRGRR.png" alt="DRM-TRGRR" width="640">
 
 **Highlights**
 
@@ -28,7 +28,7 @@ Detects drum hits in your recorded tracks and triggers or layers samples on top 
 
 | Download | Size |
 | --- | --- |
-| [DRM-TRGRR.1.1.0-Win64.zip](https://github.com/elvicw/DRM-Plugins/raw/main/downloads/DRM-TRGRR/DRM-TRGRR.1.1.0-Win64.zip) | 4.3 MB |
+| [DRM-TRGRR.1.1.0-Win64.zip](https://github.com/elvicw89/DRM-Plugins/raw/main/downloads/DRM-TRGRR/DRM-TRGRR.1.1.0-Win64.zip) | 4.3 MB |
 
 ---
 
@@ -38,7 +38,7 @@ Detects drum hits in your recorded tracks and triggers or layers samples on top 
 
 A reverb built for drums. Pick the drum source, pick a reverb character, and shape the result with a single SPACE control instead of tuning a generic reverb from scratch.
 
-<img src="https://github.com/elvicw/DRM-Plugins/raw/main/screenshots/DRM-SMRTVRB.png" alt="DRM-SMRTVRB" width="640">
+<img src="https://github.com/elvicw89/DRM-Plugins/raw/main/screenshots/DRM-SMRTVRB.png" alt="DRM-SMRTVRB" width="640">
 
 **Highlights**
 
@@ -52,7 +52,7 @@ A reverb built for drums. Pick the drum source, pick a reverb character, and sha
 
 | Download | Size |
 | --- | --- |
-| [DRM-SMRTVRB-0.4.0-Windows-VST3.zip](https://github.com/elvicw/DRM-Plugins/raw/main/downloads/DRM-SMRTVRB/DRM-SMRTVRB-0.4.0-Windows-VST3.zip) | 2.3 MB |
+| [DRM-SMRTVRB-0.4.0-Windows-VST3.zip](https://github.com/elvicw89/DRM-Plugins/raw/main/downloads/DRM-SMRTVRB/DRM-SMRTVRB-0.4.0-Windows-VST3.zip) | 2.3 MB |
 
 ---
 
@@ -62,7 +62,7 @@ A reverb built for drums. Pick the drum source, pick a reverb character, and sha
 
 An equalizer that starts from the instrument you are mixing. Choose what you are working on and get a sensible starting curve, then fine-tune every band by ear.
 
-<img src="https://github.com/elvicw/DRM-Plugins/raw/main/screenshots/DRM-RESHAPE.png" alt="DRM-RESHAPE" width="640">
+<img src="https://github.com/elvicw89/DRM-Plugins/raw/main/screenshots/DRM-RESHAPE.png" alt="DRM-RESHAPE" width="640">
 
 **Highlights**
 
@@ -76,7 +76,7 @@ An equalizer that starts from the instrument you are mixing. Choose what you are
 
 | Download | Size |
 | --- | --- |
-| [DRM-RESHAPE-Windows-x64.zip](https://github.com/elvicw/DRM-Plugins/raw/main/downloads/DRM-RESHAPE/DRM-RESHAPE-Windows-x64.zip) | 5.4 MB |
+| [DRM-RESHAPE-Windows-x64.zip](https://github.com/elvicw89/DRM-Plugins/raw/main/downloads/DRM-RESHAPE/DRM-RESHAPE-Windows-x64.zip) | 5.4 MB |
 
 
 ---

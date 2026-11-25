@@ -19,9 +19,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 STATE = ROOT / "data" / "releases.json"
-HUB = "elvicw/DRM-Plugins"
+HUB = "elvicw89/DRM-Plugins"
 BRANCH = "main"
-OWNER = "elvicw"
+OWNER = "elvicw89"
 TOPIC = "drm-series"
 ASSET_EXTS = (".zip",)
 

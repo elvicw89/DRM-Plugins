@@ -1,7 +1,7 @@
 [
   {
     "name": "DRM-TRGRR",
-    "repo": "elvicw/DRMTRGRR",
+    "repo": "elvicw89/DRMTRGRR",
     "branch": "main",
     "tagline": "Drum trigger and sample replacement.",
     "purpose": "Detects drum hits in your recorded tracks and triggers or layers samples on top of them, so a weak kick or snare can be replaced or reinforced without losing the original performance.",
@@ -18,7 +18,7 @@
   },
   {
     "name": "DRM-SMRTVRB",
-    "repo": "elvicw/DRM-SMRTVRB",
+    "repo": "elvicw89/DRM-SMRTVRB",
     "branch": "main",
     "tagline": "Drum reverb with a one-knob workflow.",
     "purpose": "A reverb built for drums. Pick the drum source, pick a reverb character, and shape the result with a single SPACE control instead of tuning a generic reverb from scratch.",
@@ -33,7 +33,7 @@
   },
   {
     "name": "DRM-RESHAPE",
-    "repo": "elvicw/DRM-RESHAPE",
+    "repo": "elvicw89/DRM-RESHAPE",
     "branch": "main",
     "tagline": "Drum-focused equalizer and tone shaper.",
     "purpose": "An equalizer that starts from the instrument you are mixing. Choose what you are working on and get a sensible starting curve, then fine-tune every band by ear.",
