@@ -36,12 +36,12 @@ def plugin_section(p):
     try:
         rel = api(f"repos/{repo}/releases/latest")
     except Exception:
-        lines += [f"No published release yet. See the [repository](https://github.com/{repo}).", ""]
+        lines += ["No published release yet.", ""]
         return "\n".join(lines)
 
     tag = rel["tag_name"]
     date = rel["published_at"][:10]
-    lines.append(f"**Latest: [{tag}]({rel['html_url']})** (released {date})")
+    lines.append(f"**Latest: {tag}** (released {date})")
     lines.append("")
     assets = [a for a in rel["assets"] if a["name"].lower().endswith(ASSET_EXTS)]
     if assets:
@@ -49,8 +49,6 @@ def plugin_section(p):
         for a in assets:
             lines.append(f"| [{a['name']}]({a['browser_download_url']}) | {human_size(a['size'])} |")
         lines.append("")
-    lines.append(f"[All releases](https://github.com/{repo}/releases) · [Source](https://github.com/{repo})")
-    lines.append("")
     return "\n".join(lines)
 
 
@@ -71,7 +69,7 @@ def main():
     for p in plugins:
         try:
             rel = api(f"repos/{p['repo']}/releases/latest")
-            latest = f"[{rel['tag_name']}]({rel['html_url']})"
+            latest = rel["tag_name"]
         except Exception:
             latest = "n/a"
         out.append(f"| [{p['name']}](#{p['name'].lower()}) | {latest} |")
