@@ -99,9 +99,13 @@ def sync_plugin(p, state):
 
 def section(p, entry):
     name = p["name"]
-    lines = [f"## {name}", "", p["tagline"], ""]
+    lines = [f"## {name}", "", f"**{p['tagline']}**", ""]
+    if p.get("purpose"):
+        lines += [p["purpose"], ""]
     if (ROOT / "screenshots" / f"{name}.png").exists():
         lines += [f'<img src="{hub_url(f"screenshots/{name}.png")}" alt="{name}" width="640">', ""]
+    if p.get("features"):
+        lines += ["**Highlights**", ""] + [f"- {f}" for f in p["features"]] + [""]
     if not entry:
         return "\n".join(lines + ["No release yet.", ""])
     lines += [f"**Latest: {entry['tag']}** (released {entry['date']})", "",
